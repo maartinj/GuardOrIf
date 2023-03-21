@@ -4,7 +4,7 @@
  ## Unwrapping Optionals
  */
 /*:
- Consider the following function that will retrieve one of two differnt names.  However, it will sometimes return nil.
+ Consider the following function that will retrieve one of two different names.  However, it will sometimes return nil.
  */
 func getName() -> String? {
     let names = ["Stewart", "Stewart Lynch"]
@@ -23,8 +23,15 @@ code(for: "Example 1 - if let") {
     // nil -> no name
     
     func reverseName() -> String {
-
-        return ""
+        if let name = getName() {
+            let nameComponents = name.components(separatedBy: " ")
+            if nameComponents.count == 2 {
+                return "\(nameComponents[1]), \(nameComponents[0])"
+            } else {
+                return nameComponents[0]
+            }
+        }
+        return "no name"
     }
     
     print(reverseName())
@@ -37,10 +44,12 @@ code(for: "Example 2 - Guard let") {
     // nil -> no name
     
     func reverseName() -> String {
-        
-        return ""
+        guard let name = getName() else { return "no name" }
+        let nameComponents = name.components(separatedBy: " ")
+        guard nameComponents.count == 2 else { return nameComponents[0] }
+        return "\(nameComponents[1]), \(nameComponents[0])"
     }
-//    print(reverseName())
+    print(reverseName())
 }
 /*:
  
